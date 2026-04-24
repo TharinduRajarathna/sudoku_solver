@@ -66,9 +66,34 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.5.2</version>
-                <configuration>
-                    <argLine>@{argLine} -Dnet.bytebuddy.experimental=true</argLine>
-                </configuration>
+                <executions>
+                    <!-- First execution: Standard 9x9 Sudoku (runs all tests) -->
+                    <execution>
+                        <id>default-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <argLine>@{argLine} -Dnet.bytebuddy.experimental=true</argLine>
+                            <includes>
+                                <include>**/*Test.java</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                    <!-- Second execution: 4x4 Sudoku (runs only specific GameSessionTest methods) -->
+                    <execution>
+                        <id>test-with-4x4-grid</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <argLine>@{argLine} -Dnet.bytebuddy.experimental=true -Dsubgrid.rows=2 -Dsubgrid.cols=2</argLine>
+                            <test>com.sudoku.game.GameSessionTest#shouldUseOneThirdOfCellsForNonStandardGridSizes</test>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <!-- JaCoCo Plugin -->
             <plugin>

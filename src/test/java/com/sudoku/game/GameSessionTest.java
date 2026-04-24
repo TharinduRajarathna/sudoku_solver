@@ -5,6 +5,7 @@ import com.sudoku.board.Position;
 import com.sudoku.util.Config;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIf;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -67,6 +68,34 @@ class GameSessionTest {
             }
         }
         assertThat(allEmpty).isTrue();
+    }
+
+    @Test
+    @EnabledIf("isSizeEqualToNine")
+    void shouldUse30PrefilledCellsForStandard9x9Grid() {
+        gameSession.startNewGame();
+
+        // Verify that for standard 9x9 Sudoku, exactly 30 cells are prefilled
+        verify(puzzleGenerator).generatePuzzle(any(Board.class), eq(30));
+    }
+
+    @Test
+    @EnabledIf("isSizeNotEqualToNine")
+    void shouldUseOneThirdOfCellsForNonStandardGridSizes() {
+        gameSession.startNewGame();
+
+        // Verify that for non-standard sizes, (SIZE * SIZE) / 3 cells are prefilled
+        int expectedPrefilledCount = (Config.SIZE * Config.SIZE) / 3;
+        verify(puzzleGenerator).generatePuzzle(any(Board.class), eq(expectedPrefilledCount));
+    }
+
+    // Helper methods for conditional test execution
+    static boolean isSizeEqualToNine() {
+        return Config.SIZE == 9;
+    }
+
+    static boolean isSizeNotEqualToNine() {
+        return Config.SIZE != 9;
     }
 
     @Test

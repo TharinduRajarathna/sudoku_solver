@@ -6,6 +6,8 @@ A production-quality command-line Sudoku game implemented in Java 25, featuring 
 
 This application allows users to play Sudoku on the command line with full support for puzzle generation, user interaction, and validation. The implementation demonstrates advanced software engineering principles including SOLID design, Test-Driven Development (TDD), and 100% test coverage.
 
+![Sudoku Gameplay](docs/images/gameplay.png)
+
 **Key Features:**
 - Interactive command-line gameplay
 - Dynamic grid sizing (supports 4x4, 9x9, up to 25x25)
@@ -444,6 +446,8 @@ Larger grids exponentially increase the search space for the backtracking algori
 ---
 
 ## Test Coverage Report
+
+![Test Coverage](docs/images/coverage.png)
 
 ### Summary (100% Coverage)
 
